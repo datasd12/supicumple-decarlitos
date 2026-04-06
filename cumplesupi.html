@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti, SUPI ❤️</title>
+    <style>
+        :root {
+            --color-principal: #e00047;
+            --color-secundario: #ff4d6d;
+            --color-fondo-1: #2a0845;
+            --color-fondo-2: #6441A5;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Fondo más nocturno y mágico para que resalten los fuegos artificiales */
+            background: linear-gradient(135deg, var(--color-fondo-1), var(--color-fondo-2), #ff7eb3);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Luces flotantes en el fondo (Bokeh) */
+        .bokeh {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: floatBokeh 10s infinite ease-in-out alternate;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatBokeh {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0.8; }
+        }
+
+        /* Botón Inicial */
+        #btn-inicio {
+            padding: 20px 45px;
+            font-size: 26px;
+            background: linear-gradient(45deg, #ff0055, #ff5e7e);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        #btn-inicio:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(255, 0, 85, 0.5);
+        }
+
+        /* Contenedor Principal */
+        #escena {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        #texto-instruccion {
+            color: white;
+            font-size: 22px;
+            margin-top: 40px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        /* Diseño del Pastel Mejorado */
+        .cake {
+            position: relative;
+            width: 220px;
+            height: 180px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 50px;
+        }
+
+        /* Animación de vibración cuando se toca */
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0) scale(1.05); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        .plate {
+            width: 280px;
+            height: 20px;
+            background: #e0e0e0;
+            position: absolute;
+            bottom: -20px;
+            left: -30px;
+            border-radius: 50%;
+            box-shadow: 0 10px 10px rgba(0,0,0,0.4);
+            border-bottom: 5px solid #bdbdbd;
+        }
+
+        .layer {
+            position: absolute;
+            width: 220px;
+            background: #ffb3c6;
+            border-radius: 10px;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
+        }
+
+        .layer-bottom { height: 70px; bottom: 0; background: #ff8fa3; }
+        .layer-middle { height: 60px; bottom: 65px; background: #ffb3c6; width: 200px; left: 10px; }
+        .layer-top { height: 50px; bottom: 120px; background: #ffccd5; width: 180px; left: 20px; }
+
+        .icing {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: #fff;
+            border-radius: 10px 10px 20px 20px;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Gotas del glaseado */
+        .drip {
+            position: absolute;
+            background: #fff;
+            width: 20px;
+            height: 40px;
+            border-radius: 20px;
+            top: 15px;
+        }
+        .drip:nth-child(1) { left: 10%; height: 35px; }
+        .drip:nth-child(2) { left: 30%; height: 50px; }
+        .drip:nth-child(3) { left: 50%; height: 30px; }
+        .drip:nth-child(4) { left: 70%; height: 45px; }
+        .drip:nth-child(5) { left: 85%; height: 35px; }
+
+        .candle {
+            position: absolute;
+            background: repeating-linear-gradient(45deg, white, white 5px, #ff4d6d 5px, #ff4d6d 10px);
+            width: 14px;
+            height: 45px;
+            top: -45px;
+            left: 83px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .flame {
+            position: absolute;
+            background: #ffc107;
+            width: 18px;
+            height: 30px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: -30px;
+            left: -2px;
+            box-shadow: 0 0 15px #ff9800, 0 0 30px #ffc107;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        @keyframes flicker {
+            from { transform: scale(1) translateY(0); opacity: 0.9; }
+            to { transform: scale(1.1) translateY(-2px); opacity: 1; }
+        }
+
+        /* La Carta / Pergamino */
+        .envelope {
+            position: relative;
+            width: 90vw;
+            max-width: 500px;
+            background: #fffaf0;
+            display: none;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: popUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            padding: 40px 30px;
+            text-align: center;
+            border: 4px double #d4af37;
+            background-image: radial-gradient(#fff 20%, #fdf5e6 80%);
+        }
+
+        .envelope h1 {
+            color: var(--color-principal);
+            font-size: 32px;
+            margin-top: 0;
+            font-family: 'Georgia', serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .envelope p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.8;
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+        }
+
+        .firma {
+            font-style: italic;
+            color: var(--color-principal);
+            font-size: 22px !important;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.5) translateY(100px) rotateX(-30deg); opacity: 0; }
+            to { transform: scale(1) translateY(0) rotateX(0deg); opacity: 1; }
+        }
+
+        /* Partículas de los fuegos artificiales */
+        .particula {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            z-index: 20;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="fondos-luces"></div>
+
+    <button id="btn-inicio" onclick="comenzar()">¡Ábreme, es para ti! 💌</button>
+
+    <div id="escena">
+        <div class="cake" id="pastel" onclick="tocarPastel()">
+            <div class="layer layer-top">
+                <div class="candle"><div class="flame"></div></div>
+                <div class="icing">
+                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
+                </div>
+            </div>
+            <div class="layer layer-middle">
+                <div class="icing">
+                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
+                </div>
+            </div>
+            <div class="layer layer-bottom">
+                <div class="icing">
+                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
+                </div>
+            </div>
+            <div class="plate"></div>
+        </div>
+        
+        <p id="texto-instruccion">¡Toca el pastel 3 veces para partirlo!</p>
+
+        <div class="envelope" id="sobre">
+            <h1>¡Feliz Cumpleaños, SUPI! 🎉</h1>
+            <p>
+                No hay palabras suficientes en el mundo para describir lo especial que eres. Eres ese tipo de persona que ilumina cualquier lugar al que llega, que hace que los días grises tengan color y que la vida se sienta mucho más bonita.
+            </p>
+            <p>
+                Hoy celebro tu vida, celebro tus risas, tu esencia y la magia que llevas contigo a donde vas. Que este nuevo año te traiga todo lo que tu corazón desea, porque te mereces el universo entero y un poquito más.
+            </p>
+            <p>
+                Gracias por existir y por ser tú. Nunca dejes de brillar. ✨
+            </p>
+            <p class="firma">Con todo mi cariño ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // Crear luces de fondo decorativas
+        const lucesContainer = document.getElementById('fondos-luces');
+        for (let i = 0; i < 20; i++) {
+            let luz = document.createElement('div');
+            luz.className = 'bokeh';
+            luz.style.left = Math.random() * 100 + 'vw';
+            luz.style.top = Math.random() * 100 + 'vh';
+            luz.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            luz.style.animationDelay = (Math.random() * 5) + 's';
+            lucesContainer.appendChild(luz);
+        }
+
+        let toques = 0;
+        const maxToques = 3;
+
+        function comenzar() {
+            document.getElementById('btn-inicio').style.display = 'none';
+            document.getElementById('escena').style.display = 'flex';
+        }
+
+        function tocarPastel() {
+            const pastel = document.getElementById('pastel');
+            const texto = document.getElementById('texto-instruccion');
+            
+            toques++;
+
+            // Animación de vibración
+            pastel.classList.remove('shake');
+            void pastel.offsetWidth; // Reiniciar animación CSS
+            pastel.classList.add('shake');
+
+            // Cambiar texto según los toques
+            if (toques === 1) {
+                texto.innerText = "¡Dale más fuerte! Faltan 2 toques...";
+                texto.style.transform = "scale(1.1)";
+            } else if (toques === 2) {
+                texto.innerText = "¡Casi! ¡Un toque más!";
+                texto.style.color = "#ffeb3b";
+                texto.style.transform = "scale(1.2)";
+            } else if (toques === maxToques) {
+                // Abrir la sorpresa
+                pastel.style.display = 'none';
+                texto.style.display = 'none';
+                document.getElementById('sobre').style.display = 'block';
+                lanzarFuegosArtificiales();
+            }
+        }
+
+        function lanzarFuegosArtificiales() {
+            const colores = ['#ff0040', '#ffeb3b', '#00e5ff', '#b400ff', '#ff009d', '#ffffff'];
+            
+            // Función para crear una explosión en una posición específica
+            function crearExplosion(x, y) {
+                for (let i = 0; i < 60; i++) {
+                    let particula = document.createElement('div');
+                    particula.className = 'particula';
+                    document.body.appendChild(particula);
+
+                    // Color aleatorio
+                    particula.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                    
+                    // Posición inicial (centro de la pantalla o donde se llame)
+                    particula.style.left = x + 'px';
+                    particula.style.top = y + 'px';
+
+                    // Matemáticas para la explosión circular
+                    let angulo = Math.random() * Math.PI * 2;
+                    let velocidad = Math.random() * 150 + 50; // Distancia de explosión
+                    let destX = Math.cos(angulo) * velocidad;
+                    let destY = Math.sin(angulo) * velocidad + 50; // Gravedad simulada (+50 para que caigan)
+
+                    // Animación con JavaScript (Web Animations API)
+                    particula.animate([
+                        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                        { transform: `translate(${destX}px, ${destY}px) scale(0)`, opacity: 0 }
+                    ], {
+                        duration: Math.random() * 1000 + 1000, // 1 a 2 segundos
+                        easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                        fill: 'forwards'
+                    });
+
+                    // Eliminar del DOM después de la animación
+                    setTimeout(() => particula.remove(), 2000);
+                }
+            }
+
+            // Lanzar múltiples explosiones en la pantalla
+            let w = window.innerWidth;
+            let h = window.innerHeight;
+            
+            crearExplosion(w/2, h/2); // Centro
+            
+            setTimeout(() => crearExplosion(w * 0.2, h * 0.3), 300); // Izquierda
+            setTimeout(() => crearExplosion(w * 0.8, h * 0.4), 600); // Derecha
+            setTimeout(() => crearExplosion(w * 0.5, h * 0.2), 900); // Arriba
+            setTimeout(() => crearExplosion(w/2, h/2), 1200); // Gran final al centro
+        }
+    </script>
+</body>
+</html>
