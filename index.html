@@ -77,7 +77,7 @@
             flex-direction: column;
             align-items: center;
             z-index: 5;
-            width: 100%; /* Asegura que no se desborde */
+            width: 100%; 
         }
 
         #texto-instruccion {
@@ -203,7 +203,7 @@
             text-align: center;
             border: 4px double #d4af37;
             background-image: radial-gradient(#fff 20%, #fdf5e6 80%);
-            box-sizing: border-box; /* Importante para móvil */
+            box-sizing: border-box; 
         }
 
         .envelope h1 {
@@ -253,7 +253,7 @@
             }
 
             .cake {
-                transform: scale(0.85); /* Escalamos el pastel original */
+                transform: scale(0.85); 
                 margin-top: 20px;
             }
 
@@ -264,8 +264,8 @@
 
             .envelope {
                 padding: 25px 20px;
-                max-height: 85vh; /* Evita que se salga de la pantalla */
-                overflow-y: auto; /* Permite scroll si el mensaje es largo */
+                max-height: 85vh; 
+                overflow-y: auto; 
             }
 
             .envelope h1 {
@@ -280,6 +280,8 @@
     </style>
 </head>
 <body>
+
+    <audio id="musica" src="musica.mp3" loop></audio>
 
     <div id="fondos-luces"></div>
 
@@ -324,7 +326,6 @@
     </div>
 
     <script>
-        // Crear luces de fondo decorativas
         const lucesContainer = document.getElementById('fondos-luces');
         for (let i = 0; i < 20; i++) {
             let luz = document.createElement('div');
@@ -365,6 +366,10 @@
                 pastel.style.display = 'none';
                 texto.style.display = 'none';
                 document.getElementById('sobre').style.display = 'block';
+                
+                // ÚNICA ADICIÓN: Activar audio al mostrar la carta
+                document.getElementById('musica').play();
+                
                 lanzarFuegosArtificiales();
             }
         }
